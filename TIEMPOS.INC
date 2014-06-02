@@ -1,0 +1,61 @@
+T5MS:           MOVLW d'4'
+				MOVWF V1
+				MOVLW d'255'
+				MOVWF V0
+				DECF V0,1
+				BTFSS STATUS,Z
+				GOTO $-2
+				DECF V1,1
+				BTFSS STATUS,Z
+				GOTO $-7
+				RETURN
+
+T15MS:          MOVLW d'14'
+				MOVWF V1
+				MOVLW d'255'
+				MOVWF V0
+				DECF V0,1
+				BTFSS STATUS,Z
+				GOTO $-2
+				DECF V1,1
+				BTFSS STATUS,Z
+				GOTO $-7
+				RETURN
+
+T1S:            MOVLW d'3'
+				MOVWF V2
+				MOVLW d'255'
+				MOVWF V1
+				MOVLW d'255'
+				MOVWF V0
+				DECF V0,1
+				BTFSS STATUS,Z
+				GOTO $-2
+				DECF V1,1
+				BTFSS STATUS,Z
+				GOTO $-7
+				DECF V2,1
+				BTFSS STATUS,Z
+				GOTO $-12
+				RETURN
+
+T100US:         MOVLW d'25'
+				MOVWF V0
+				DECF V0,1
+				BTFSS STATUS,Z
+				GOTO $-2
+				RETURN
+
+T40US:       	MOVLW d'9'
+				MOVWF V0
+				DECF V0,1
+				BTFSS STATUS,Z
+				GOTO $-2
+				RETURN
+
+T1MS:       	MOVLW d'248'
+				MOVWF V0
+				DECF V0,1
+				BTFSS STATUS,Z
+				GOTO $-2
+				RETURN

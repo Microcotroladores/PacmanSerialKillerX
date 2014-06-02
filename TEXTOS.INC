@@ -1,0 +1,35 @@
+TERMTXT:	MOVLW 82H
+			CALL LCD_CMD
+
+			MOVLW 'G'
+			CALL LCD_DATO
+
+			MOVLW 'A'
+			CALL LCD_DATO
+
+			MOVLW 'M'
+			CALL LCD_DATO
+
+			MOVLW 'E'
+			CALL LCD_DATO
+
+			MOVLW ' '
+			CALL LCD_DATO
+
+			MOVLW 'O'
+			CALL LCD_DATO
+
+            MOVLW 'V'
+			CALL LCD_DATO
+
+            MOVLW 'E'
+			CALL LCD_DATO
+
+            MOVLW 'R'
+			CALL LCD_DATO
+
+			RETURN
+			
+
+
+			
