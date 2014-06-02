@@ -6,7 +6,7 @@
 			#DEFINE E PORTC,1
 			#DEFINE BUS PORTB
 ;-----------REGISTROS------------------------------------------------------
-			CBLOCK  0CH
+			CBLOCK  20H
 			CMD
 			DATO
 			CNN
@@ -32,19 +32,20 @@
             CLRF    TRISC
             BSF     TRISC,7
 
-			;MOVLW   07H
-			;MOVWF   OPTION_REG
+			MOVLW   07H
+			MOVWF   OPTION_REG
             MOVLW   19H
             MOVWF   SPBRG           ;Configura la velocidad a 9600bps
             CLRF    TXSTA
             BSF     TXSTA,2
+            BSF     TXSTA,5
 
 			BCF     STATUS,RP0
 			CLRF    PORTA
 			CLRF    PORTB
             CLRF    PORTC
-			;CLRF    TMR0
-			;BCF     INTCON,2
+            clrf    RCSTA
+            BSF     RCSTA,4
             BSF     RCSTA,7
 
 ;-----------INICIALIZACION Y CONF DE LCD---------------------------------
@@ -73,7 +74,7 @@ MAIN:		MOVLW   01H
 			INCF    CNN,1
 			MOVLW   00H
 			CALL    LCD_DATO
-			MOVLW   01H   ;INDICA EN QUE POSICION INICIARA EL PACMAN 06H
+			MOVLW   06H   ;INDICA EN QUE POSICION INICIARA EL PACMAN 06H
 			SUBWF   CNN,W
 			BTFSC   STATUS,Z
 			GOTO    SANCTUARY
@@ -107,28 +108,32 @@ SANCTUARY:  MOVLW   87H
 			SUBWF   CNN,0
 			BTFSS   STATUS,Z
 			GOTO    $-6
+            CALL    TXTINI
 ;-----------LEER DATOS DEL TECLADO-------------------------------
 TECLADO: 	CALL    Get_Serial
-			XORLW   3CH
+			XORLW   'a'            ;3CH
 			BTFSC   STATUS,Z
 			GOTO    IZQUIERDA
 
             CALL    Get_Serial
-			XORLW   3EH
+			XORLW   'd'
 			BTFSC   STATUS,Z
 			GOTO    DERECHA
 
             CALL    Get_Serial
-			XORLW   28H
+			XORLW   'w'
 			BTFSC   STATUS,Z
 			GOTO    ARRIBA
 
             CALL    Get_Serial
-			XORLW   3DH
+			XORLW   's'
 			BTFSC   STATUS,Z
 			GOTO    ABAJO
 
-			BCF     PIR1,RCIF
+            CALL    Get_Serial
+            CALL    Send_Serial
+
+			;BCF     PIR1,RCIF
             GOTO    TECLADO
 ;-----------VALORES PARA POSICION--------------------------------
 TABLA:		ADDWF   PCL,1
