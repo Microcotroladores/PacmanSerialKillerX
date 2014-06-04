@@ -1,4 +1,6 @@
-Send_Serial:    MOVWF   TXREG
+Send_Serial:    ;BTFSC   PIR1,TXIF
+                ;GOTO    Send_Serial
+                MOVWF   TXREG
                 CALL    T1MS
                 NOP
                 RETURN

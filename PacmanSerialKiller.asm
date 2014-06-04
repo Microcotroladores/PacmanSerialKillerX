@@ -1,6 +1,7 @@
 ;-----------ENCABEZADO---------------------------------------------------------
             #INCLUDE<P16F873A.INC>
-			__CONFIG _XT_OSC & _WDT_OFF & _CP_OFF & _PWRTE_ON
+			__CONFIG _XT_OSC & _WDT_OFF & _CP_OFF & _PWRTE_ON &_BODEN_OFF & _LVP_OFF & _CPD_OFF & _DEBUG_OFF
+            LIST P=16F873A
 ;-----------DEFINICIONES---------------------------------------------------
 			#DEFINE RS PORTC,0
 			#DEFINE E PORTC,1
@@ -31,9 +32,9 @@
 			MOVWF   TRISB
             CLRF    TRISC
             BSF     TRISC,7
-
-			MOVLW   07H
-			MOVWF   OPTION_REG
+            
+            MOVLW 07H
+			MOVWF OPTION_REG
             MOVLW   19H
             MOVWF   SPBRG           ;Configura la velocidad a 9600bps
             CLRF    TXSTA
@@ -115,25 +116,22 @@ TECLADO: 	CALL    Get_Serial
 			BTFSC   STATUS,Z
 			GOTO    IZQUIERDA
 
-            CALL    Get_Serial
+            MOVF    RCREG,0
 			XORLW   'd'
 			BTFSC   STATUS,Z
 			GOTO    DERECHA
 
-            CALL    Get_Serial
+            MOVF    RCREG,0
 			XORLW   'w'
 			BTFSC   STATUS,Z
 			GOTO    ARRIBA
 
-            CALL    Get_Serial
+            MOVF    RCREG,0
 			XORLW   's'
 			BTFSC   STATUS,Z
 			GOTO    ABAJO
 
-            CALL    Get_Serial
-            CALL    Send_Serial
-
-			;BCF     PIR1,RCIF
+            ;BCF     PIR1,RCIF
             GOTO    TECLADO
 ;-----------VALORES PARA POSICION--------------------------------
 TABLA:		ADDWF   PCL,1
